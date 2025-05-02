@@ -13,29 +13,34 @@ fn main() {
 
     println!("The secret number is: {}", secret_number);
 
-    println!("Please input your guess.");
+    loop {
+        println!("Please input your guess.");
 
-    let mut guess = String::new();
+        let mut guess = String::new();
 
-    io::stdin()
-        // memo 参照もデフォルトで不変なのでmutを付ける必要がある
-        .read_line(&mut guess)
-        // expectを書かないと警告が出る
-        // エラーの場合にクラッシュさせて、引数のメッセージを表示する
-        .expect("Failed to read line");
+        io::stdin()
+            // memo 参照もデフォルトで不変なのでmutを付ける必要がある
+            .read_line(&mut guess)
+            // expectを書かないと警告が出る
+            // エラーの場合にクラッシュさせて、引数のメッセージを表示する
+            .expect("Failed to read line");
 
-    let guess: u32 = guess
-        // 空白や改行文字を削除
-        .trim()
-        // 変数宣言時に型を明示しておくことで、その型に変換してくれる
-        .parse()
-        .expect("Please type a number!");
-    
-    println!("You guessed: {}", guess);
+        let guess: u32 = guess
+            // 空白や改行文字を削除
+            .trim()
+            // 変数宣言時に型を明示しておくことで、その型に変換してくれる
+            .parse()
+            .expect("Please type a number!");
 
-    match guess.cmp(&secret_number) {
-        Ordering::Less => { println!("Too small!") }
-        Ordering::Greater => { println!("Too big!") }
-        Ordering::Equal => { println!("You win!") }
+        println!("You guessed: {}", guess);
+
+        match guess.cmp(&secret_number) {
+            Ordering::Less => { println!("Too small!") }
+            Ordering::Greater => { println!("Too big!") }
+            Ordering::Equal => { 
+                println!("You win!");
+                break;
+            }
+        }
     }
 }
