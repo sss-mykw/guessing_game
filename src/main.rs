@@ -25,12 +25,11 @@ fn main() {
             // エラーの場合にクラッシュさせて、引数のメッセージを表示する
             .expect("Failed to read line");
 
-        let guess: u32 = guess
-            // 空白や改行文字を削除
-            .trim()
-            // 変数宣言時に型を明示しておくことで、その型に変換してくれる
-            .parse()
-            .expect("Please type a number!");
+        // trimで空白や改行文字を削除
+        let guess: u32 = match guess.trim().parse() { 
+            Ok(num) => num,
+            Err(_) => continue,
+        };
 
         println!("You guessed: {}", guess);
 
