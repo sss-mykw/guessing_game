@@ -1,7 +1,16 @@
 use std::io;
+use rand::Rng;
 
 fn main() {
     println!("Guess the number!");
+    
+    // 1から100までの乱数
+    // 下限値は含まれるが上限値は含まれないことに注意
+    let secret_number = rand::rng().random_range(1..101);
+    // こういう書き方も出来る
+    // let secret_number = rand::rng().random_range(1..=100);
+
+    println!("The secret number is: {}", secret_number);
 
     println!("Please input your guess.");
 
