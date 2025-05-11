@@ -1,3 +1,6 @@
+mod guess;
+use guess::Guess;
+
 use std::cmp::Ordering;
 use std::io;
 use rand::Rng;
@@ -26,14 +29,25 @@ fn main() {
             .expect("Failed to read line");
 
         // trimで空白や改行文字を削除
-        let guess: u32 = match guess.trim().parse() { 
-            Ok(num) => num,
-            Err(_) => continue,
+        let guess: Guess = match guess.trim().parse() { 
+            Ok(num) => {
+                match Guess::new(num) {
+                    Ok(guess) => guess,
+                    Err(error) => {
+                        println!("{:?}", error);
+                        continue
+                    }
+                }
+            },
+            Err(error) => {
+                println!("{:?}", error);
+                continue
+            },
         };
 
-        println!("You guessed: {}", guess);
+        println!("You guessed: {}", guess.value());
 
-        match guess.cmp(&secret_number) {
+        match guess.value().cmp(&secret_number) {
             Ordering::Less => { println!("Too small!") }
             Ordering::Greater => { println!("Too big!") }
             Ordering::Equal => { 
